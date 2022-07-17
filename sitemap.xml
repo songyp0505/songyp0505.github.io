@@ -477,13 +477,6 @@
   </url>
   
   <url>
-    <loc>http://songyp0505.github.io/tags/Django/</loc>
-    <lastmod>2022-07-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://songyp0505.github.io/tags/CentOS8/</loc>
     <lastmod>2022-07-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -492,6 +485,13 @@
   
   <url>
     <loc>http://songyp0505.github.io/tags/Docker/</loc>
+    <lastmod>2022-07-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://songyp0505.github.io/tags/Django/</loc>
     <lastmod>2022-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -563,14 +563,14 @@
   </url>
   
   <url>
-    <loc>http://songyp0505.github.io/categories/Web/</loc>
+    <loc>http://songyp0505.github.io/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%87%AA%E8%99%90%E4%B9%8B%E6%97%85/</loc>
     <lastmod>2022-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://songyp0505.github.io/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%87%AA%E8%99%90%E4%B9%8B%E6%97%85/</loc>
+    <loc>http://songyp0505.github.io/categories/Web/</loc>
     <lastmod>2022-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
