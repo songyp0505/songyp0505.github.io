@@ -52,9 +52,9 @@ http://songyp0505.github.io/tags/index.html
 http://songyp0505.github.io/
 http://songyp0505.github.io/tags/pandas/
 http://songyp0505.github.io/tags/Django/
-http://songyp0505.github.io/tags/Scrapy/
-http://songyp0505.github.io/tags/Docker/
 http://songyp0505.github.io/tags/CentOS8/
+http://songyp0505.github.io/tags/Docker/
+http://songyp0505.github.io/tags/Scrapy/
 http://songyp0505.github.io/tags/MySql/
 http://songyp0505.github.io/tags/WSL/
 http://songyp0505.github.io/tags/CentOS7/
