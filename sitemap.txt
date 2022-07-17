@@ -1,8 +1,9 @@
+http://songyp0505.github.io/2022/07/17/220717weeklyNote/
+http://songyp0505.github.io/2022/06/30/220703weeklyNote/
 http://songyp0505.github.io/2022/01/18/dataLearnC03/
 http://songyp0505.github.io/2022/01/09/dataLearnC01/
 http://songyp0505.github.io/2022/01/12/dataLearnC02/
 http://songyp0505.github.io/2021/11/13/HellloWorld/
-http://songyp0505.github.io/2022/06/30/220703weeklyNote/
 http://songyp0505.github.io/2022/06/30/Win10-First-Install-Centos7ofWSLversion/
 http://songyp0505.github.io/2022/06/30/HexoEnglishURL/
 http://songyp0505.github.io/2021/11/19/ScrapyCrawlDoubanSmallDemo/
