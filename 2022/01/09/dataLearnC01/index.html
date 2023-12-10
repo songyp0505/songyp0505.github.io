@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.176free.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="第一章：数据载入及初步观察总结一下每天发现的不会的地方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter01">
+<meta property="og:url" content="http://blog.176free.top/2022/01/09/dataLearnC01/index.html">
+<meta property="og:site_name" content="songyp0505">
+<meta property="og:description" content="第一章：数据载入及初步观察总结一下每天发现的不会的地方">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-09T16:06:37.000Z">
+<meta property="article:modified_time" content="2023-12-10T08:45:02.466Z">
+<meta property="article:author" content="songyp0505">
+<meta property="article:tag" content="pandas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.176free.top/2022/01/09/dataLearnC01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Chapter01 | songyp0505</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="songyp0505" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">songyp0505</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">songyp0505'Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.176free.top/2022/01/09/dataLearnC01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="songyp0505">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songyp0505">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Chapter01
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-09 16:06:37" itemprop="dateCreated datePublished" datetime="2022-01-09T16:06:37+00:00">2022-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-10 08:45:02" itemprop="dateModified" datetime="2023-12-10T08:45:02+00:00">2023-12-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">动手学数据分析</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第一章：数据载入及初步观察"><a href="#第一章：数据载入及初步观察" class="headerlink" title="第一章：数据载入及初步观察"></a>第一章：数据载入及初步观察</h2><p>总结一下每天发现的不会的地方</p>
+<span id="more"></span>
+
+<h3 id="任务1-2：载入数据中的read-csv-read-table"><a href="#任务1-2：载入数据中的read-csv-read-table" class="headerlink" title="任务1.2：载入数据中的read_csv &amp; read_table"></a>任务1.2：载入数据中的read_csv &amp; read_table</h3><p>【思考】（知道数据加载的方法后，试试pd.read_csv()和pd.read_table()的不同，如果想让他们效果一样，需要怎么做？了解一下’.tsv’和’.csv’的不同，如何加载这两个数据集？）：</p>
+<ol>
+<li><p>read_csv读取csv（comma-separated values (csv)）文件，read_table读取general delimited file通用分隔符文件，包括csv文件</p>
+</li>
+<li><p>tsv是以tab分隔的，而csv是以英文逗号分隔的; tsv文件可以直接用read_table读取，csv文件既可以用read_table也可以用read_csv</p>
+</li>
+<li><p>pandas文档介绍中指出“如果如果read_table的sep参数为 None，C 引擎无法自动检测分隔符，但 Python 解析引擎可以，这意味着将使用后者并通过 Python 的内置嗅探器工具 csv.Sniffer 自动检测分隔符”但是我在实际使用时，如果不加sep&#x3D;”,”的话，len(df.columns)输出1，加了的话输出12，是不是说明并没有自动识别到呢</p>
+</li>
+</ol>
+<h3 id="任务1-4：将表头改成中文，索引改为乘客ID"><a href="#任务1-4：将表头改成中文，索引改为乘客ID" class="headerlink" title="任务1.4：将表头改成中文，索引改为乘客ID"></a>任务1.4：将表头改成中文，索引改为乘客ID</h3><p>【思考】所谓将表头改为中文其中一个思路是：将英文列名表头替换成中文。还有其他的方法吗？</p>
+<p>课程是在读取时指定的新列名，也可以在读取后再修改：<a href = "https://www.delftstack.com/zh/howto/python-pandas/how-to-rename-columns-in-pandas/#%E4%BD%BF%E7%94%A8-dataframe-rename-%E6%96%B9%E6%B3%95%E9%87%8D%E5%91%BD%E5%90%8D-pandas-dataframe-%E4%B8%AD%E7%9A%84%E5%88%97">参考链接</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>columns:</span><br><span class="line">df.columns = [<span class="string">&#x27;乘客ID&#x27;</span>,<span class="string">&#x27;是否幸存&#x27;</span>,<span class="string">&#x27;仓位等级&#x27;</span>,<span class="string">&#x27;姓名&#x27;</span>,<span class="string">&#x27;性别&#x27;</span>,<span class="string">&#x27;年龄&#x27;</span>,<span class="string">&#x27;兄弟姐妹个数&#x27;</span>,<span class="string">&#x27;父母子女个数&#x27;</span>,<span class="string">&#x27;船票信息&#x27;</span>,<span class="string">&#x27;票价&#x27;</span>,<span class="string">&#x27;客舱&#x27;</span>,<span class="string">&#x27;登船港口&#x27;</span>] </span><br><span class="line">df.set_index(<span class="string">&#x27;乘客ID&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>rename:</span><br><span class="line">df.rename(columns=&#123;<span class="string">&#x27;oldname_1&#x27;</span>:<span class="string">&#x27;newname_1&#x27;</span>,<span class="string">&#x27;oldname_2&#x27;</span>:<span class="string">&#x27;newname_2&#x27;</span>&#125;,index_col=<span class="string">&#x27;乘客ID&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>rename可以指定想更改哪几列的名称，columns必须把所有的列名都列出，即使没有更改的</p>
+<h3 id="任务4-5：删除列"><a href="#任务4-5：删除列" class="headerlink" title="任务4.5：删除列"></a>任务4.5：删除列</h3><p>【思考】还有其他的删除多余的列的方式吗？</p>
+<p>课程使用的是del列，但是局限在于，del每次只能删除一列，然后在<a target="_blank" rel="noopener" href="https://www.delftstack.com/zh/howto/python-pandas/how-to-delete-pandas-dataframe-column/">delftstack</a>查到了另外两种，drop和pop，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>df.drop()</span><br><span class="line">用法：DataFrame.drop(labels=<span class="literal">None</span>,axis=<span class="number">0</span>, index=<span class="literal">None</span>, columns=<span class="literal">None</span>, inplace=<span class="literal">False</span>)</span><br><span class="line">参数说明：</span><br><span class="line">labels 就是要删除的行列的名字，用列表给定</span><br><span class="line">axis 默认为<span class="number">0</span>，指删除行，因此删除columns时要指定axis=<span class="number">1</span>；</span><br><span class="line">index 直接指定要删除的行</span><br><span class="line">columns 直接指定要删除的列</span><br><span class="line">inplace=<span class="literal">False</span>，默认该删除操作不改变原数据，而是返回一个执行删除操作后的新dataframe；</span><br><span class="line">inplace=<span class="literal">True</span>，则会直接在原数据上进行删除操作，删除后无法返回。 </span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>df.pop()</span><br><span class="line">DataFrame.pop(item) 方法返回该元素并将其从 DataFrame 中删除，感觉很像”出栈“？</span><br></pre></td></tr></table></figure>
+
+<h3 id="任务5-5：iloc和loc"><a href="#任务5-5：iloc和loc" class="headerlink" title="任务5.5：iloc和loc"></a>任务5.5：iloc和loc</h3><p>一、loc：根据标签（label）索引</p>
+<ol>
+<li><p>行根据行标签，也就是索引筛选，列根据列标签，列名筛选</p>
+</li>
+<li><p>如果选取的是所有行或者所有列，可以用：代替</p>
+</li>
+<li><p>行标签选取的时候，两端都包含，比如[0:5]指的是0，1，2，3，4，5</p>
+</li>
+</ol>
+<p>二、iloc：根据行标签的位置索引。iloc就是 integer loc ，可以理解为是在loc的基础上，用整数索引。即iloc是基于位置索引的，也就是我们常说的几行几列。</p>
+<ol>
+<li><p>iloc基于位置索引，简单来说，就是第几行第几列，只不过这里的行列都是从0开始的</p>
+</li>
+<li><p>如果选取的是所有行或者所有列，可以用：代替</p>
+</li>
+<li><p>iloc的[0:x]中不包括x，只能到x-1.</p>
+</li>
+</ol>
+<h3 id="任务6-1：pandas排序"><a href="#任务6-1：pandas排序" class="headerlink" title="任务6.1：pandas排序"></a>任务6.1：pandas排序</h3><p>任选多列数据同时降序排序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frame.sort_values(by=[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;c&#x27;</span>], ascending=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>多列排序是分主次的，先排第一序列的，如果有相同的再依次排后面的，上面的代码就表示需要先排 a 列，如果a列有相同的值，那么在相同值得排序依据是 c 列</p>
+<h3 id="课程来源："><a href="#课程来源：" class="headerlink" title="课程来源："></a>课程来源：</h3><p> <a href = "https://github.com/datawhalechina/hands-on-data-analysis/tree/master/%E7%AC%AC%E4%B8%80%E5%8D%95%E5%85%83%E9%A1%B9%E7%9B%AE%E9%9B%86%E5%90%88">第一单元项目集合</a> </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/pandas/" rel="tag"># pandas</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/19/ScrapyCrawlDoubanSmallDemo/" rel="prev" title="Scrapy爬取豆瓣小Demo">
+      <i class="fa fa-chevron-left"></i> Scrapy爬取豆瓣小Demo
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/10/220110weeklyNote/" rel="next" title="2022-1-10周记">
+      2022-1-10周记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E6%95%B0%E6%8D%AE%E8%BD%BD%E5%85%A5%E5%8F%8A%E5%88%9D%E6%AD%A5%E8%A7%82%E5%AF%9F"><span class="nav-number">1.</span> <span class="nav-text">第一章：数据载入及初步观察</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A11-2%EF%BC%9A%E8%BD%BD%E5%85%A5%E6%95%B0%E6%8D%AE%E4%B8%AD%E7%9A%84read-csv-read-table"><span class="nav-number">1.1.</span> <span class="nav-text">任务1.2：载入数据中的read_csv &amp; read_table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A11-4%EF%BC%9A%E5%B0%86%E8%A1%A8%E5%A4%B4%E6%94%B9%E6%88%90%E4%B8%AD%E6%96%87%EF%BC%8C%E7%B4%A2%E5%BC%95%E6%94%B9%E4%B8%BA%E4%B9%98%E5%AE%A2ID"><span class="nav-number">1.2.</span> <span class="nav-text">任务1.4：将表头改成中文，索引改为乘客ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A14-5%EF%BC%9A%E5%88%A0%E9%99%A4%E5%88%97"><span class="nav-number">1.3.</span> <span class="nav-text">任务4.5：删除列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A15-5%EF%BC%9Ailoc%E5%92%8Cloc"><span class="nav-number">1.4.</span> <span class="nav-text">任务5.5：iloc和loc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A16-1%EF%BC%9Apandas%E6%8E%92%E5%BA%8F"><span class="nav-number">1.5.</span> <span class="nav-text">任务6.1：pandas排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B%E6%9D%A5%E6%BA%90%EF%BC%9A"><span class="nav-number">1.6.</span> <span class="nav-text">课程来源：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">songyp0505</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songyp0505</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

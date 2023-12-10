@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.176free.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="第二章第一节内容相对比较基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter02">
+<meta property="og:url" content="http://blog.176free.top/2022/01/12/dataLearnC02/index.html">
+<meta property="og:site_name" content="songyp0505">
+<meta property="og:description" content="第二章第一节内容相对比较基础">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-12T20:42:04.000Z">
+<meta property="article:modified_time" content="2023-12-10T08:45:02.466Z">
+<meta property="article:author" content="songyp0505">
+<meta property="article:tag" content="pandas">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.176free.top/2022/01/12/dataLearnC02/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Chapter02 | songyp0505</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="songyp0505" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">songyp0505</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">songyp0505'Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.176free.top/2022/01/12/dataLearnC02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="songyp0505">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songyp0505">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Chapter02
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-12 20:42:04" itemprop="dateCreated datePublished" datetime="2022-01-12T20:42:04+00:00">2022-01-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-10 08:45:02" itemprop="dateModified" datetime="2023-12-10T08:45:02+00:00">2023-12-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">动手学数据分析</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第二章第一节"><a href="#第二章第一节" class="headerlink" title="第二章第一节"></a>第二章第一节</h2><p>内容相对比较基础</p>
+<span id="more"></span>
+
+<h3 id="环境问题：pandas更新Jupyter不正常"><a href="#环境问题：pandas更新Jupyter不正常" class="headerlink" title="环境问题：pandas更新Jupyter不正常"></a>环境问题：pandas更新Jupyter不正常</h3><p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44352981/article/details/118857979">Bad file descriptor (C:\ci\zeromq_1602704446950\work\src\epoll.cpp:100)解决办法</a></p>
+<h3 id="任务2-1-缺失值观察与处理"><a href="#任务2-1-缺失值观察与处理" class="headerlink" title="任务2.1 缺失值观察与处理"></a>任务2.1 缺失值观察与处理</h3><p>常用的缺失值处理方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df.isnull()</span><br><span class="line">df.isna()</span><br><span class="line">df.dropna()</span><br><span class="line">df.fillna()</span><br></pre></td></tr></table></figure>
+
+<p>其中：<br><strong>pandas.DataFrame.fillna(value&#x3D;None, method&#x3D;None, axis&#x3D;None, inplace&#x3D;False, limit&#x3D;None, downcast&#x3D;None)</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">value     scalar、<span class="built_in">dict</span>、Series 或 DataFrame。用于替换 NaN 的值  </span><br><span class="line">method    backfill、bfill、pad、ffill 或 <span class="literal">None</span>。用于填充 NaN 值的方法  </span><br><span class="line">axis      沿行(axis=<span class="number">0</span>)或列(axis=<span class="number">1</span>)填补缺失的数值  </span><br><span class="line">inplace   布尔型。如果为 <span class="literal">True</span>，就地修改调用者 DataFrame  </span><br><span class="line">limit     整数。  </span><br><span class="line">          如果指定了 method，则是要向前/向后填充的连续 NaN 值的最大数量。  </span><br><span class="line">          如果没有指定 method，则是要填充的轴的最大 NaN 值数  </span><br><span class="line">downcast  字典。指定转换的数据类型  </span><br><span class="line"></span><br><span class="line">如果 inplace 为 <span class="literal">True</span>，则用给定的 value 替换所有 NaN 值的 DataFrame；否则为 <span class="literal">None</span>  </span><br><span class="line"></span><br><span class="line">method             说明  </span><br><span class="line">backfill/bfill   用同一列中的 NaN 值之后的值填充 DataFrame 中所有的 NaN 值  </span><br><span class="line">ffill/pad        用同一列中的 NaN 值之前的值填充 DataFrame 中所有的 NaN 值</span><br></pre></td></tr></table></figure>
+
+<p><strong>pandas.DataFrame.dropna(axis&#x3D;0, how&#x3D;’any’, thresh&#x3D;None, subset&#x3D;None, inplace&#x3D;False)</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">axis    它决定轴是行还是列。</span><br><span class="line">        如果它是 <span class="number">0</span> 或<span class="string">&#x27;index&#x27;</span>，那么它将删除包含缺失值的行。</span><br><span class="line">        如果它是 <span class="number">1</span> 或<span class="string">&#x27;column&#x27;</span>，那么它将删除包含缺失值的列。默认情况下，它的值是 <span class="number">0</span></span><br><span class="line">how     这个参数决定函数如何删除行或列。它只接受两个字符串，可以是 <span class="built_in">all</span> 或 <span class="built_in">all</span>。默认情况下，它被设置为 <span class="built_in">any</span>。</span><br><span class="line">        <span class="built_in">any</span> - 如果行或列中有任何空值，就会删除它。</span><br><span class="line">        <span class="built_in">all</span> - 如果行或列中缺少所有值，则放弃该行或列</span><br><span class="line">thresh  它是一个整数，指定了防止行或列丢失的非缺失值的最少数量</span><br><span class="line">subset  它是一个数组，其中有行或列的名称，用于指定列名</span><br><span class="line">inplace 它是一个布尔值，如果设置为 <span class="literal">True</span>，将就地改变调用者 DataFrame。默认情况下，它的值是 <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>【思考】检索空缺值用<code>np.nan</code>,<code>None</code>以及<code>.isnull()</code>哪个更好，这是为什么？如果其中某个方式无法找到缺失值，原因又是为什么？</p>
+<p>【回答】本文件用<code>isnull</code>，<code>np.nan</code>,<code>None</code>都索引不到</p>
+<h3 id="任务2-3特征观察与处理"><a href="#任务2-3特征观察与处理" class="headerlink" title="任务2.3特征观察与处理"></a>任务2.3特征观察与处理</h3><p>分箱操作：<strong>pd.cut&#x2F;qcut()</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pd.cut( x, bins, right=<span class="literal">True</span>, labels=<span class="literal">None</span>, retbins=<span class="literal">False</span>, precision=<span class="number">3</span>, include_lowest=<span class="literal">False</span>, duplicates=<span class="string">&#x27;raise&#x27;</span>, )</span><br><span class="line"></span><br><span class="line">x ：    一维数组</span><br><span class="line">bins ： 整数，标量序列或者间隔索引，是进行分组的依据，</span><br><span class="line">        如果填入整数n，则表示将x中的数值分成等宽的n份（即每一组内的最大值与最小值之差约相等）；</span><br><span class="line">        如果是标量序列，序列中的数值表示用来分档的分界值</span><br><span class="line">        如果是间隔索引，“ bins”的间隔索引必须不重叠</span><br><span class="line">right ：布尔值，默认为<span class="literal">True</span>表示包含最右侧的数值</span><br><span class="line">        当“ right = <span class="literal">True</span>”（默认值）时，则“ bins”=[<span class="number">1</span>、<span class="number">2</span>、<span class="number">3</span>、<span class="number">4</span>]表示（<span class="number">1</span>,<span class="number">2</span>]，（<span class="number">2</span>,<span class="number">3</span>],（<span class="number">3</span>,<span class="number">4</span>]，当bins是一个间隔索引时，该参数被忽略。</span><br><span class="line">labels : 数组或布尔值，可选.指定分箱的标签</span><br><span class="line">        如果是数组，长度要与分箱个数一致，比如“ bins”=[<span class="number">1</span>、<span class="number">2</span>、<span class="number">3</span>、<span class="number">4</span>]表示（<span class="number">1</span>,<span class="number">2</span>]，（<span class="number">2</span>,<span class="number">3</span>],（<span class="number">3</span>,<span class="number">4</span>]一共<span class="number">3</span>个区间，则labels的长度也就是标签的个数也要是<span class="number">3</span></span><br><span class="line">        如果为<span class="literal">False</span>，则仅返回分箱的整数指示符，即x中的数据在第几个箱子里，当bins是间隔索引时，将忽略此参数</span><br><span class="line">retbins： 是否显示分箱的分界值。默认为<span class="literal">False</span>，当bins取整数时可以设置retbins=<span class="literal">True</span>以显示分界值，得到划分后的区间</span><br><span class="line">precision：整数，默认<span class="number">3</span>，存储和显示分箱标签的精度。</span><br><span class="line">include_lowest：布尔值，表示区间的左边是开还是闭，默认为false，也就是不包含区间左边。</span><br><span class="line">duplicates：如果分箱临界值不唯一，则引发ValueError或丢弃非唯一</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#将连续变量Age按10% 30% 50 70% 90%五个年龄段，并用分类变量12345表示</span></span><br><span class="line">df[<span class="string">&#x27;AgeBand&#x27;</span>] = pd.qcut(df[<span class="string">&#x27;Age&#x27;</span>],[<span class="number">0</span>,<span class="number">0.1</span>,<span class="number">0.3</span>,<span class="number">0.5</span>,<span class="number">0.7</span>,<span class="number">0.9</span>],labels = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</span><br><span class="line">df.head()</span><br></pre></td></tr></table></figure>
+
+<p>即cut自定义水平较高，qcut只能按比例分箱。</p>
+<p><strong>间隔索引举例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bins = pd.IntervalIndex.from_tuples([(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">4</span>, <span class="number">5</span>)])  </span><br><span class="line">pd.cut([<span class="number">0</span>, <span class="number">0.5</span>, <span class="number">1.5</span>, <span class="number">2.5</span>, <span class="number">4.5</span>], bins)  </span><br><span class="line">[NaN, (<span class="number">0.0</span>, <span class="number">1.0</span>], NaN, (<span class="number">2.0</span>, <span class="number">3.0</span>], (<span class="number">4.0</span>, <span class="number">5.0</span>]]  </span><br><span class="line">Categories (<span class="number">3</span>, interval[int64, right]): [(<span class="number">0</span>, <span class="number">1</span>] &lt; (<span class="number">2</span>, <span class="number">3</span>] &lt; (<span class="number">4</span>, <span class="number">5</span>]]</span><br><span class="line"></span><br><span class="line">间隔索引就是自定义区间，不在区间内的数值不参与cut  </span><br><span class="line">[<span class="number">0</span>, <span class="number">0.5</span>, <span class="number">1.5</span>, <span class="number">2.5</span>, <span class="number">4.5</span>]是源数据，[(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">3</span>), (<span class="number">4</span>, <span class="number">5</span>)]是“划分标准”，[NaN, (<span class="number">0.0</span>, <span class="number">1.0</span>], NaN, (<span class="number">2.0</span>, <span class="number">3.0</span>], (<span class="number">4.0</span>, <span class="number">5.0</span>]]是“划分结果”  </span><br><span class="line"><span class="number">0</span> 属于 NaN  </span><br><span class="line"><span class="number">0.5</span>属于(<span class="number">0.0</span>, <span class="number">1.0</span>]  </span><br><span class="line"><span class="number">1.5</span>属于NaN  </span><br><span class="line"><span class="number">2.5</span>属于(<span class="number">2.0</span>, <span class="number">3.0</span>]  </span><br><span class="line"><span class="number">4.5</span>属于(<span class="number">4.0</span>, <span class="number">5.0</span>]  </span><br></pre></td></tr></table></figure>
+
+<h3 id="任务2-4-数据的合并"><a href="#任务2-4-数据的合并" class="headerlink" title="任务2.4 数据的合并"></a>任务2.4 数据的合并</h3><p>【<strong>思考</strong>】对比merge、join以及concat的方法的不同以及相同。思考一下在任务四和任务五的情况下，为什么都要求使用DataFrame的append方法，如何只要求使用merge或者join可不可以完成任务四和任务五呢？</p>
+<p>【<strong>回答</strong>】</p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42782150/article/details/89546357">四种用法的区别</a>  即，concat和merge既能行也能列，join只能列，append只能行</p>
+</li>
+<li><p>只要求使用merge或者join可不可以完成任务四和任务五呢？merge可以，join不可以</p>
+</li>
+</ol>
+<p><strong>agg函数</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f37ac2a7b6dc">pandas agg函数使用方法 - 简书</a></p>
+<h3 id="小插曲"><a href="#小插曲" class="headerlink" title="小插曲"></a>小插曲</h3><p><strong>0x800700E1: 无法成功完成操作，因为文件包含病毒</strong>  很上头，准备打开WindowsTerminal用Hexo，结果刚打开就报错<strong>0x800700E1</strong>，然后尝试直接打开powershell，结果报毒，尝试了更新系统、关闭WindowsDefender，都没用，睡了一觉突然想到能不能重装powershell，于是装了个新版的powershell，问题解决了。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/pandas/" rel="tag"># pandas</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/10/220110weeklyNote/" rel="prev" title="2022-1-10周记">
+      <i class="fa fa-chevron-left"></i> 2022-1-10周记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/18/220116weeklyNote/" rel="next" title="2022-1-16周记">
+      2022-1-16周记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%AC%AC%E4%B8%80%E8%8A%82"><span class="nav-number">1.</span> <span class="nav-text">第二章第一节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98%EF%BC%9Apandas%E6%9B%B4%E6%96%B0Jupyter%E4%B8%8D%E6%AD%A3%E5%B8%B8"><span class="nav-number">1.1.</span> <span class="nav-text">环境问题：pandas更新Jupyter不正常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A12-1-%E7%BC%BA%E5%A4%B1%E5%80%BC%E8%A7%82%E5%AF%9F%E4%B8%8E%E5%A4%84%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">任务2.1 缺失值观察与处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A12-3%E7%89%B9%E5%BE%81%E8%A7%82%E5%AF%9F%E4%B8%8E%E5%A4%84%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">任务2.3特征观察与处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A12-4-%E6%95%B0%E6%8D%AE%E7%9A%84%E5%90%88%E5%B9%B6"><span class="nav-number">1.4.</span> <span class="nav-text">任务2.4 数据的合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E6%8F%92%E6%9B%B2"><span class="nav-number">1.5.</span> <span class="nav-text">小插曲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.6.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">songyp0505</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songyp0505</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

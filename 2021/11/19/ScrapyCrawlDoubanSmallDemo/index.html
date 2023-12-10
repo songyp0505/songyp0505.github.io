@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.176free.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="具体流程分析：   进入热门电影页面  抓取所有电影链接  抓取每个电影的标题、评分、首页评论   进入下一页继续递归爬取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy爬取豆瓣小Demo">
+<meta property="og:url" content="http://blog.176free.top/2021/11/19/ScrapyCrawlDoubanSmallDemo/index.html">
+<meta property="og:site_name" content="songyp0505">
+<meta property="og:description" content="具体流程分析：   进入热门电影页面  抓取所有电影链接  抓取每个电影的标题、评分、首页评论   进入下一页继续递归爬取">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-19T23:14:58.000Z">
+<meta property="article:modified_time" content="2023-12-10T08:45:02.466Z">
+<meta property="article:author" content="songyp0505">
+<meta property="article:tag" content="Scrapy">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.176free.top/2021/11/19/ScrapyCrawlDoubanSmallDemo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Scrapy爬取豆瓣小Demo | songyp0505</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="songyp0505" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">songyp0505</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">songyp0505'Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.176free.top/2021/11/19/ScrapyCrawlDoubanSmallDemo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="songyp0505">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songyp0505">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Scrapy爬取豆瓣小Demo
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-19 23:14:58" itemprop="dateCreated datePublished" datetime="2021-11-19T23:14:58+00:00">2021-11-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-10 08:45:02" itemprop="dateModified" datetime="2023-12-10T08:45:02+00:00">2023-12-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>具体流程分析：</p>
+<blockquote>
+<ol>
+<li><p>进入热门电影页面</p>
+</li>
+<li><p>抓取所有电影链接</p>
+<ol>
+<li>抓取每个电影的标题、评分、首页评论</li>
+</ol>
+</li>
+<li><p>进入下一页继续递归爬取</p>
+</li>
+</ol>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="Scrapy基本架构："><a href="#Scrapy基本架构：" class="headerlink" title="Scrapy基本架构："></a>Scrapy基本架构：</h2><ul>
+<li><strong>引擎</strong>（Scrapy Engine）：处理整个系统的数据流，触发事务。</li>
+<li><strong>调度器</strong>（Scheduler）：接受引擎发过来的请求，压入调度队列，并在引擎再次请求的时候返回。</li>
+<li><strong>下载器</strong>（Downloader）：下载网页内容，并将网页内容返回给蜘蛛。</li>
+<li><strong>蜘蛛</strong>（Spider）：定制特定域名或网页的解析规则。</li>
+<li><strong>项目管道</strong>（ItemPipeline）：处理由蜘蛛从网页中提取的结构性数据，主要任务是清洗、验证和存储数据。</li>
+<li><strong>中间件</strong>（Middlewares）：包括下载器中间件（引擎与下载器之间）、蜘蛛中间件（引擎与蜘蛛之间）、调度中间件（引擎与调度器之间）等。</li>
+</ul>
+<h2 id="实战："><a href="#实战：" class="headerlink" title="实战："></a>实战：</h2><h3 id="创建项目："><a href="#创建项目：" class="headerlink" title="创建项目："></a>创建项目：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject doubanmoviePract</span><br><span class="line">cd doubanmoviePract</span><br><span class="line">scrapy genspider crawler movie.douban.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">文件结构：</span><br><span class="line">F:.</span><br><span class="line">│  doubanmp_crawler - 副本.log</span><br><span class="line">│  doubanmp_crawler.log</span><br><span class="line">│  re.csv</span><br><span class="line">│  scrapy.cfg</span><br><span class="line">│</span><br><span class="line">└─doubanmoviePract</span><br><span class="line">    │  items.py</span><br><span class="line">    │  middlewares.py</span><br><span class="line">    │  pipelines.py</span><br><span class="line">    │  settings.py</span><br><span class="line">    │  __init__.py</span><br><span class="line">    │</span><br><span class="line">    └─spiders</span><br><span class="line">            crawler.py</span><br><span class="line">            __init__.py</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义结构性数据："><a href="#自定义结构性数据：" class="headerlink" title="自定义结构性数据："></a>自定义结构性数据：</h3><p>首先编辑根目录下的items文件，在项目对象下设置自己想要爬取的信息，这里设置了标题、评分、网址链接、首页的评论信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">\doubanmoviePract\doubanmoviePract\items.py</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DoubanmoviepractItem</span>(scrapy.Item):</span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    rate = scrapy.Field()</span><br><span class="line">    url = scrapy.Field()</span><br><span class="line">    first_p_comment = scrapy.Field()</span><br></pre></td></tr></table></figure>
+
+<h3 id="编写解析网页的spider："><a href="#编写解析网页的spider：" class="headerlink" title="编写解析网页的spider："></a>编写解析网页的spider：</h3><p>解析网页的spider是位于spider目录下的crawler文件，这里我主要增加了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlencode</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> ..items <span class="keyword">import</span> DoubanmoviepractItem</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CrawlerSpider</span>(scrapy.Spider):</span><br><span class="line">    name = <span class="string">&#x27;crawler&#x27;</span></span><br><span class="line">    allowed_domains = [<span class="string">&#x27;movie.douban.com&#x27;</span>]</span><br><span class="line">    start_urls = [<span class="string">&#x27;https://movie.douban.com/j/search_subjects?type=movie&amp;tag=%E7%83%AD%E9%97%A8&amp;sort=recommend&amp;page_limit=100&amp;page_start=0&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parse</span>(<span class="params">self, response</span>):</span><br><span class="line">        jsonresponse = json.loads(response.text)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> jsonresponse[<span class="string">&#x27;subjects&#x27;</span>]:</span><br><span class="line">            request= scrapy.Request(response.urljoin(j[<span class="string">&quot;url&quot;</span>]), callback=self.comment_parse)</span><br><span class="line">            request.meta[<span class="string">&#x27;j&#x27;</span>] = j</span><br><span class="line">            <span class="keyword">yield</span> request</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">comment_parse</span>(<span class="params">self,response</span>):</span><br><span class="line">        item = DoubanmoviepractItem()</span><br><span class="line">        j = response.meta[<span class="string">&#x27;j&#x27;</span>]</span><br><span class="line">        item[<span class="string">&quot;title&quot;</span>] = j[<span class="string">&quot;title&quot;</span>]</span><br><span class="line">        item[<span class="string">&quot;rate&quot;</span>] = j[<span class="string">&quot;rate&quot;</span>]</span><br><span class="line">        item[<span class="string">&quot;url&quot;</span>] = j[<span class="string">&quot;url&quot;</span>]</span><br><span class="line">        item[<span class="string">&quot;first_p_comment&quot;</span>] = response.css(<span class="string">&#x27;.short&#x27;</span>).getall()</span><br><span class="line">        <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+
+<p>首先从豆瓣的&#x2F;j接口网页中获得热门电影的信息，然后将标题、评分、链接放到字典的不同值里，并且将链接yield给comment_parse进行首页评论的爬取。结构相对比较简单。</p>
+<p><strong>这里有几个地方花费了大量的时间理解</strong>：</p>
+<blockquote>
+<p><em>如何让不同的函数对同一对象进行操作</em></p>
+<p><em>如何在callback回调中传输参数</em></p>
+</blockquote>
+<p>第一个问题，如何让不同的函数对同一个对象进行操作：</p>
+<p>因为面向对象的知识实在是过于久远了，很多东西都还给课本了，我一开始直接按逻辑思路在两个函数中对item的不同属性进行操作，但是操作的前提是有item对象，所以我就在每个方法中都生成了一个item对象，结果是，程序运行后只保留了后一个对象，于是我打算只建一个对象，然后两个函数对同一个对象进行操作，结果是我没法确定应该在哪新建这个对象，因为在哪新建她都给我报错，于是我决定看看怎么把”对对象的操作“放进一个函数里，于是引出了第二个问题，如何在回调中传递参数：</p>
+<p>参考链接里的方法是，将parse中的Item对象直接加到request里，然后通过response调出这个对象之后交给other_parse，因为我当时已经在下面写好了item的操作了，所以只把网页信息加到了request里。</p>
+<h3 id="自定义数据管道"><a href="#自定义数据管道" class="headerlink" title="自定义数据管道"></a>自定义数据管道</h3><p>通常这一步进行的是如何清洗并存储你的数据，这里由于是小规模爬取，我就没有进行数据的存储。</p>
+<h3 id="自定义中间件"><a href="#自定义中间件" class="headerlink" title="自定义中间件"></a>自定义中间件</h3><p>中间件即项目目录下的middlewares文件，可以实现的功能有很多，这两天大概了解了随机UA和动态ip的使用，由于动态ip比较费劲，而且已经23：54了，我就没接着折腾，随机UA会减缓一定程度的封锁，但是动态ip更吊一些。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DoubanmoviepractDownloaderMiddleware</span>:</span><br><span class="line">    <span class="comment"># Not all methods need to be defined. If a method is not defined,</span></span><br><span class="line">    <span class="comment"># scrapy acts as if the downloader middleware does not modify the</span></span><br><span class="line">    <span class="comment"># passed objects.</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    使用随机的User-Agent进行爬虫</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># User-Agent 列表：https://github.com/fengzhizi715/user-agent-list/blob/master/Chrome.txt</span></span><br><span class="line">        self.user_agent_list = [</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2226.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.4; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2225.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2225.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2224.3 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 4.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (X11; OpenBSD i386) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1944.0 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.3319.102 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2309.372 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36&#x27;</span></span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request, spider</span>):</span><br><span class="line">        ua = random.choice(self.user_agent_list)</span><br><span class="line">        request.headers[<span class="string">&#x27;User-Agent&#x27;</span>] = ua</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置settings"><a href="#设置settings" class="headerlink" title="设置settings"></a>设置settings</h3><p>前面设置的pipeline和middlewares在自己定义好后需要从设置里注册并设置优先级：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">    <span class="string">&#x27;scrapy.downloadermiddlewares.useragent.UserAgentMiddleware&#x27;</span>: <span class="literal">None</span>, </span><br><span class="line">    <span class="string">&#x27;doubanmoviePract.middlewares.DoubanmoviepractDownloaderMiddleware&#x27;</span>: <span class="number">100</span>,</span><br><span class="line">&#125;</span><br><span class="line">ROBOTSTXT_OBEY = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>这里一个问题就是，在设置随机UA时，要把系统的UA给关掉。以及要把ROBOTSTXT_OBEY 设为False，不然的话，scrapy会遵守目标网站的规则，而通常，目标网站是不会让普通机器人爬取信息的。</p>
+<h3 id="启动spider"><a href="#启动spider" class="headerlink" title="启动spider"></a>启动spider</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl crawler -o re.csv</span><br></pre></td></tr></table></figure>
+
+<p>因为没有设置数据存储的中间件，所以在启动程序的时候，直接 ”-o 目标文件“即可输出定义的值。</p>
+<h3 id="检查爬虫结果："><a href="#检查爬虫结果：" class="headerlink" title="检查爬虫结果："></a>检查爬虫结果：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#x27;first_p_comment&#x27;: [&#x27;&lt;span &#x27;</span><br><span class="line">                     &#x27;class=&quot;short&quot;&gt;最后十分钟眼泪不止，他明明没有表情，但我看懂了他的所有情绪，这就是爱！真他娘的又浪漫又悲壮&lt;/span&gt;&#x27;,</span><br><span class="line">                     &#x27;&lt;span class=&quot;short&quot;&gt;2021，听起来多么适合作为世界末日的一个年份。&lt;/span&gt;&#x27;,</span><br><span class="line">                     &#x27;&lt;span &#x27;</span><br><span class="line">                     &#x27;class=&quot;short&quot;&gt;真的，狗子不管和谁玩球，最后都会把对方丢出去的球捡回叼给主人（主人在场的情况）。我们豆小葵十年如一日！末日公路片，一人一机器人一狗子，两个小时从绝望到慢慢被灌注希望和光明。Good &#x27;</span><br><span class="line">                     &#x27;year，真的很喜欢狗子的这个名字，2019年可能是未来10年来最好的一年，疫情、经济、气候变化...都形势严 峻，芬奇所在的未来，臭氧层已经被严重破坏，人类为了生存时刻要泯灭良心挑战人性底线。而他把狗子托给杰夫照顾，这...&lt;/span&gt;&#x27;,</span><br><span class="line">                     &#x27;&lt;span &#x27;</span><br><span class="line">                     &#x27;class=&quot;short&quot;&gt;一人，一机器，一条狗，在世界末日里享受生活，简简单单，却让人心情舒畅，倍感惬意。这是一部几乎没有高潮的片子，但当狗狗把球丢在芬奇面前时，我却热泪盈眶。&lt;/span&gt;&#x27;,</span><br><span class="line">                     &#x27;&lt;span &#x27;</span><br><span class="line">                     &#x27;class=&quot;short&quot;&gt;想一想未来社会，有机器人收尸送终也不错。况且还是穿派克大衣、翘兰花指的机器人，又能帮你喂狗。《我是传奇》《火星救援》《荒岛余生》式的鲁滨逊孤独生存故事。只要日子里依然有书、有狗、有音乐和伙伴，就能不那么像末世。最有意味的一幕：杰夫发现了镜子，也第一次发现了“我自己”。&lt;/span&gt;&#x27;],</span><br><span class="line"> &#x27;rate&#x27;: &#x27;8.4&#x27;,</span><br><span class="line"> &#x27;title&#x27;: &#x27;芬奇&#x27;,</span><br><span class="line"> &#x27;url&#x27;: &#x27;https://movie.douban.com/subject/26897885/&#x27;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里没有进行数据清洗，所以还有很多html标签。</p>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>由于只是个小demo，代码也还有很多需要改善的地方，主要有两点，一个是数据清洗，一个是动态ip的设置，所以就不贴代码了。</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><p><a target="_blank" rel="noopener" href="https://brightsunp.github.io/2018/12/07/scrapy%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/">Scrapy项目实战—捡贝壳的男孩</a></p>
+<p><a href = "https://blog.csdn.net/rgc_520_zyl/article/details/78946974" />scrapy回调函数传递参数</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Scrapy/" rel="tag"># Scrapy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/14/DjangoDemosmainProcess/" rel="prev" title="总结DjangoDemo中的建站主要流程">
+      <i class="fa fa-chevron-left"></i> 总结DjangoDemo中的建站主要流程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/09/dataLearnC01/" rel="next" title="Chapter01">
+      Chapter01 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrapy%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">Scrapy基本架构：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">实战：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">创建项目：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%93%E6%9E%84%E6%80%A7%E6%95%B0%E6%8D%AE%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">自定义结构性数据：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E8%A7%A3%E6%9E%90%E7%BD%91%E9%A1%B5%E7%9A%84spider%EF%BC%9A"><span class="nav-number">2.3.</span> <span class="nav-text">编写解析网页的spider：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93"><span class="nav-number">2.4.</span> <span class="nav-text">自定义数据管道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text">自定义中间件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEsettings"><span class="nav-number">2.6.</span> <span class="nav-text">设置settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8spider"><span class="nav-number">2.7.</span> <span class="nav-text">启动spider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E7%88%AC%E8%99%AB%E7%BB%93%E6%9E%9C%EF%BC%9A"><span class="nav-number">2.8.</span> <span class="nav-text">检查爬虫结果：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-number">2.9.</span> <span class="nav-text">源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">参考链接：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">songyp0505</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songyp0505</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

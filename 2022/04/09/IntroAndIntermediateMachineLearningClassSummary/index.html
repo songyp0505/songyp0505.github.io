@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.176free.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="回顾一下Kaggle里两个简短的入门课程里用到的东西">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Intro and intermediate Machine Learning 课程总结">
+<meta property="og:url" content="http://blog.176free.top/2022/04/09/IntroAndIntermediateMachineLearningClassSummary/index.html">
+<meta property="og:site_name" content="songyp0505">
+<meta property="og:description" content="回顾一下Kaggle里两个简短的入门课程里用到的东西">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-09T14:32:26.000Z">
+<meta property="article:modified_time" content="2023-12-10T08:45:02.466Z">
+<meta property="article:author" content="songyp0505">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.176free.top/2022/04/09/IntroAndIntermediateMachineLearningClassSummary/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Intro and intermediate Machine Learning 课程总结 | songyp0505</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="songyp0505" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">songyp0505</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">songyp0505'Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.176free.top/2022/04/09/IntroAndIntermediateMachineLearningClassSummary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="songyp0505">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songyp0505">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Intro and intermediate Machine Learning 课程总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-09 14:32:26" itemprop="dateCreated datePublished" datetime="2022-04-09T14:32:26+00:00">2022-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-10 08:45:02" itemprop="dateModified" datetime="2023-12-10T08:45:02+00:00">2023-12-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kaggle/" itemprop="url" rel="index"><span itemprop="name">Kaggle</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>回顾一下Kaggle里两个简短的入门课程里用到的东西</p>
+<span id="more"></span>
+
+<h2 id="Intro-to-Machine-Learning"><a href="#Intro-to-Machine-Learning" class="headerlink" title="Intro to Machine Learning"></a>Intro to Machine Learning</h2><h3 id="基础探索："><a href="#基础探索：" class="headerlink" title="基础探索："></a><strong>基础探索：</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">describe() <span class="comment">#描述每一列的计数、均值、标准差等数据</span></span><br><span class="line">head() <span class="comment">#列出前X行的数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="建立第一个模型："><a href="#建立第一个模型：" class="headerlink" title="建立第一个模型："></a><strong>建立第一个模型：</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> Dmelbourne_model.predict(X.head()ecisionTreeRegressor</span><br><span class="line"></span><br><span class="line"><span class="comment"># Define model. Specify a number for random_state to ensure same results each run</span></span><br><span class="line">melbourne_model = DecisionTreeRegressor(random_state=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Fit model</span></span><br><span class="line">melbourne_model.fit(X, y) </span><br><span class="line"></span><br><span class="line"><span class="comment">#predict data</span></span><br><span class="line">melbourne_model.predict(X.head()</span><br></pre></td></tr></table></figure>
+
+<p>这里用的是一个决策树模型，指定random_state的数字是为了在模型初始化时确定好模型内的参数，从而使得每次使用相同的random_state运行模型时都可以得到相同的结果。</p>
+<p>通常model.fit()里的参数都是训练集，而model.predict()里的参数则是验证集或测试集。</p>
+<h3 id="模型验证："><a href="#模型验证：" class="headerlink" title="模型验证："></a><strong>模型验证：</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_absolute_error</span><br><span class="line"></span><br><span class="line">predicted_home_prices = melbourne_model.predict(X)</span><br><span class="line">mean_absolute_error(y, predicted_home_prices)</span><br></pre></td></tr></table></figure>
+
+<p>mean_absolute_error则为平均绝对值误差，即对所有项进行预测值与实际值求差后的平方和的均值。</p>
+<p><strong>决策树VS随机森林：</strong></p>
+<p>决策树单一，随机森林由多个决策树组成，且随机挑选特征</p>
+<h2 id="Intermediate-Machine-Learning"><a href="#Intermediate-Machine-Learning" class="headerlink" title="Intermediate Machine Learning"></a>Intermediate Machine Learning</h2><h3 id="缺失值处理："><a href="#缺失值处理：" class="headerlink" title="缺失值处理："></a><strong>缺失值处理：</strong></h3><ol>
+<li><p>舍弃存在缺失值的列</p>
+</li>
+<li><p>插值：如在数值列中将空缺数据的表格填上指定的数值。</p>
+</li>
+<li><p>高级插值：通过均值、最大值、最小值等数据进行综合决定</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#确定存在缺失值的列名</span></span><br><span class="line">cols_with_missing = [col <span class="keyword">for</span> col <span class="keyword">in</span> X.columns <span class="keyword">if</span> X[col].isnull().<span class="built_in">any</span>()]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#快速插值</span></span><br><span class="line"><span class="keyword">from</span> sklearn.impute <span class="keyword">import</span> SimpleImputer</span><br><span class="line"></span><br><span class="line"><span class="comment"># Imputation</span></span><br><span class="line">my_imputer = SimpleImputer()</span><br><span class="line">imputed_X_train = pd.DataFrame(my_imputer.fit_transform(X_train))</span><br><span class="line">imputed_X_valid = pd.DataFrame(my_imputer.transform(X_valid))</span><br></pre></td></tr></table></figure>
+
+<h3 id="类别变量："><a href="#类别变量：" class="headerlink" title="类别变量："></a><strong>类别变量：</strong></h3><ol>
+<li><p>舍弃存在类别变量的列</p>
+</li>
+<li><p>序数编码</p>
+<ol>
+<li>把为数不多的类别型变量按顺序排列，根据权重或顺序等方式确定每个变量的数值</li>
+</ol>
+</li>
+<li><p>One_Hot编码</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#确定哪一列是类别型变量：</span></span><br><span class="line">s = (X.dtypes == <span class="string">&#x27;object&#x27;</span>)</span><br><span class="line">object_cols = <span class="built_in">list</span>(s[s].index)</span><br></pre></td></tr></table></figure>
+
+<p>如果一个列中有文本，那么这一列的dtype就会是object</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OrdinalEncoder</span><br><span class="line"></span><br><span class="line"><span class="comment"># Make copy to avoid changing original data </span></span><br><span class="line">label_X_train = X_train.copy()</span><br><span class="line">label_X_valid = X_valid.copy()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Apply ordinal encoder to each column with categorical data</span></span><br><span class="line">ordinal_encoder = OrdinalEncoder()</span><br><span class="line">label_X_train[object_cols] = ordinal_encoder.fit_transform(X_train[object_cols])</span><br><span class="line">label_X_valid[object_cols] = ordinal_encoder.transform(X_valid[object_cols])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line"></span><br><span class="line"><span class="comment"># Apply one-hot encoder to each column with categorical data</span></span><br><span class="line">OH_encoder = OneHotEncoder(handle_unknown=<span class="string">&#x27;ignore&#x27;</span>, sparse=<span class="literal">False</span>)</span><br><span class="line">OH_cols_train = pd.DataFrame(OH_encoder.fit_transform(X_train[object_cols]))</span><br><span class="line">OH_cols_valid = pd.DataFrame(OH_encoder.transform(X_valid[object_cols]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># One-hot encoding removed index; put it back</span></span><br><span class="line">OH_cols_train.index = X_train.index</span><br><span class="line">OH_cols_valid.index = X_valid.index</span><br><span class="line"></span><br><span class="line"><span class="comment"># Remove categorical columns (will replace with one-hot encoding)</span></span><br><span class="line">num_X_train = X_train.drop(object_cols, axis=<span class="number">1</span>)</span><br><span class="line">num_X_valid = X_valid.drop(object_cols, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add one-hot encoded columns to numerical features</span></span><br><span class="line">OH_X_train = pd.concat([num_X_train, OH_cols_train], axis=<span class="number">1</span>)</span><br><span class="line">OH_X_valid = pd.concat([num_X_valid, OH_cols_valid], axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="管道整合"><a href="#管道整合" class="headerlink" title="管道整合"></a>管道整合</h3><p>在对整体数据的特征把握清楚后，可以对数据处理的步骤进行整合</p>
+<p><strong>1.管道的步骤</strong></p>
+<blockquote>
+<ul>
+<li><p>对数值型数据列进行缺失值处理</p>
+</li>
+<li><p>对类别型数据列进行One—Hot编码</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.compose <span class="keyword">import</span> ColumnTransformer</span><br><span class="line"><span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline</span><br><span class="line"><span class="keyword">from</span> sklearn.impute <span class="keyword">import</span> SimpleImputer</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line"></span><br><span class="line"><span class="comment"># Preprocessing for numerical data</span></span><br><span class="line">numerical_transformer = SimpleImputer(strategy=<span class="string">&#x27;constant&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Preprocessing for categorical data</span></span><br><span class="line">categorical_transformer = Pipeline(steps=[</span><br><span class="line">    (<span class="string">&#x27;imputer&#x27;</span>, SimpleImputer(strategy=<span class="string">&#x27;most_frequent&#x27;</span>)),</span><br><span class="line">    (<span class="string">&#x27;onehot&#x27;</span>, OneHotEncoder(handle_unknown=<span class="string">&#x27;ignore&#x27;</span>))</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Bundle preprocessing for numerical and categorical data</span></span><br><span class="line">preprocessor = ColumnTransformer(</span><br><span class="line">    transformers=[</span><br><span class="line">        (<span class="string">&#x27;num&#x27;</span>, numerical_transformer, numerical_cols),</span><br><span class="line">        (<span class="string">&#x27;cat&#x27;</span>, categorical_transformer, categorical_cols)</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.定义模型</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor</span><br><span class="line"></span><br><span class="line">model = RandomForestRegressor(n_estimators=<span class="number">100</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.整合上述工作到管道中</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_absolute_error</span><br><span class="line"></span><br><span class="line"><span class="comment"># Bundle preprocessing and modeling code in a pipeline</span></span><br><span class="line">my_pipeline = Pipeline(steps=[(<span class="string">&#x27;preprocessor&#x27;</span>, preprocessor),</span><br><span class="line">                              (<span class="string">&#x27;model&#x27;</span>, model)</span><br><span class="line">                             ])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Preprocessing of training data, fit model </span></span><br><span class="line">my_pipeline.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Preprocessing of validation data, get predictions</span></span><br><span class="line">preds = my_pipeline.predict(X_valid)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Evaluate the model</span></span><br><span class="line">score = mean_absolute_error(y_valid, preds)</span><br></pre></td></tr></table></figure>
+
+<h3 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h3><p>由于采用交叉验证需要进行额外步骤，所以会对计算机产生额外负担，当数据量较大时尽量不采用交叉验证。并且当数据量较大时训练集和验证集的数据划分时已经有了较大的随机性</p>
+<p><strong>验证步骤：</strong></p>
+<ol>
+<li><p>将验证集平均划分为不同的子集</p>
+</li>
+<li><p>选其中一个子集为训练集，其余子集为验证集</p>
+</li>
+<li><p>除第二步中的子集以外选择一个子集为训练集，其余子集（包含第二步）为验证集</p>
+</li>
+<li><p>重复第三步，直至所有子集均被作为训练集录入模型。</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_score</span><br><span class="line"></span><br><span class="line"><span class="comment"># Multiply by -1 since sklearn calculates *negative* MAE</span></span><br><span class="line">scores = -<span class="number">1</span> * cross_val_score(my_pipeline, X, y,</span><br><span class="line">                              cv=<span class="number">5</span>,</span><br><span class="line">                              scoring=<span class="string">&#x27;neg_mean_absolute_error&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="“调参侠”XGBoost"><a href="#“调参侠”XGBoost" class="headerlink" title="“调参侠”XGBoost"></a>“调参侠”XGBoost</h3><p>XGBoost是一个开源软件库，它为 C++、Java、Python、 R和Julia提供了一个梯度提升框架，适用于Linux、Windows和 mac os。根据项目的描述，它的目的在于提供一个”可扩展、可移植和分布式梯度提升(GBM、GBRT、GBDT)库“。</p>
+<p><strong>调用：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> xgboost <span class="keyword">import</span> XGBRegressor</span><br><span class="line"></span><br><span class="line">my_model = XGBRegressor()</span><br><span class="line">my_model.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+
+<p><strong>调参：</strong></p>
+<p><code>n_estimators：</code> 指定经过建模周期的次数。它等于我们在集成中包含的模型数量。太小会欠拟合，太大会过拟合，默认在100-1000</p>
+<p><code>early_stopping_rounds：</code> 指定验证分数在多少轮没有提升时停止训练</p>
+<p><code>learning_rate：</code> 我们可以将每个模型的预测乘以一个小数（称为学习率），然后再将它们相加，而不是通过简单地将每个组件模型的预测相加来获得预测。一般来说，小的学习率和大的<code>n_estimators</code>会产生更准确的 XGBoost 模型，尽管它也会花费更长的时间来训练模型，因为它在整个循环中进行了更多的迭代。默认情况下，XGBoost 设置 learning_rate&#x3D;0.1</p>
+<p><code>n_jobs:</code> 在考虑运行时间的较大数据集上，可以使用并行更快地构建模型。通常将参数 n_jobs 设置为机器上的内核数。在较小的数据集上，这无济于事。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/07/KaggleClassQandA/" rel="prev" title="Kaggle课程问题记录">
+      <i class="fa fa-chevron-left"></i> Kaggle课程问题记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/10/220410weeklyNote/" rel="next" title="2022-04-10周记">
+      2022-04-10周记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro-to-Machine-Learning"><span class="nav-number">1.</span> <span class="nav-text">Intro to Machine Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%8E%A2%E7%B4%A2%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">基础探索：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%A8%A1%E5%9E%8B%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">建立第一个模型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%AA%8C%E8%AF%81%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">模型验证：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intermediate-Machine-Learning"><span class="nav-number">2.</span> <span class="nav-text">Intermediate Machine Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A4%84%E7%90%86%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">缺失值处理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E5%8F%98%E9%87%8F%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">类别变量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E9%81%93%E6%95%B4%E5%90%88"><span class="nav-number">2.3.</span> <span class="nav-text">管道整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="nav-number">2.4.</span> <span class="nav-text">交叉验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9C%E8%B0%83%E5%8F%82%E4%BE%A0%E2%80%9DXGBoost"><span class="nav-number">2.5.</span> <span class="nav-text">“调参侠”XGBoost</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">songyp0505</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songyp0505</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
